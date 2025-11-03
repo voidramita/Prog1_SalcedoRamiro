@@ -9,7 +9,6 @@ hola_mundo()
 
 ## Ejercicio 2
 def saludar_usuario(nombre):
-    """Devuelve un saludo personalizado con el nombre recibido."""
     return f"Hola {nombre}!"
 
 ## Ejercicio 3
