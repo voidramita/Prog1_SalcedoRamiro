@@ -1,14 +1,16 @@
+## Se importan las librerías y funciones necesarias
 import csv
 import os
-
 from funciones_opciones import menu, buscar_pais, filtrar_paises, ordenar_paises, mostrar_estadisticas
 
+## Crea el archivo si no existe para asegurar formato correcto
 def inicializar_archivo():
     if not os.path.exists("paises.csv"):
         with open("paises.csv", "w", newline='', encoding='utf-8-sig') as archivo:
             escritor = csv.writer(archivo)
-            escritor.writerow(["nombre", "continente", "poblacion", "superficie"])
+            escritor.writerow(["nombre", "poblacion", "superficie", "continente"])
 
+## Lee el CSV y convierte cada fila en un diccionario
 def leer_csv(ruta):
     paises = []
     with open(ruta, "r", newline='', encoding='utf-8-sig') as archivo:
@@ -19,16 +21,17 @@ def leer_csv(ruta):
                 fila["superficie"] = int(fila["superficie"])
                 paises.append(fila)
             except ValueError:
-                print(f"Error al convertir datos del país: {fila['nombre']}. Se omite este registro.")
+                ## Manejo simple por si un registro viene corrupto
+                print(f"Error en los datos del país: {fila['nombre']}. Se omite.")
     return paises
 
-
+## Bucle principal del programa
 def main():
-
     paises = leer_csv("paises.csv")
 
     while True:
         opcion = menu()
+
         if opcion == "1":
             buscar_pais(paises)
         elif opcion == "2":
@@ -38,9 +41,11 @@ def main():
         elif opcion == "4":
             mostrar_estadisticas(paises)
         elif opcion == "5":
+            print("Saliendo del programa.")
             break
         else:
-            print("Opción inválida. Intentá de nuevo.")
+            print("Opción inválida.")
 
+## Inicializa archivo y ejecuta el programa
 inicializar_archivo()
 main()
